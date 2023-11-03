@@ -61,56 +61,12 @@ class Society
         return $this->hunts;
     }
 
-    public function addHunt(Hunt $hunt): static
-    {
-        if (!$this->hunts->contains($hunt)) {
-            $this->hunts->add($hunt);
-            $hunt->setSociety($this);
-        }
-
-        return $this;
-    }
-
-    public function removeHunt(Hunt $hunt): static
-    {
-        if ($this->hunts->removeElement($hunt)) {
-            // set the owning side to null (unless already changed)
-            if ($hunt->getSociety() === $this) {
-                $hunt->setSociety(null);
-            }
-        }
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Quota>
      */
     public function getQuotas(): Collection
     {
         return $this->quotas;
-    }
-
-    public function addQuota(Quota $quota): static
-    {
-        if (!$this->quotas->contains($quota)) {
-            $this->quotas->add($quota);
-            $quota->setSociety($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQuota(Quota $quota): static
-    {
-        if ($this->quotas->removeElement($quota)) {
-            // set the owning side to null (unless already changed)
-            if ($quota->getSociety() === $this) {
-                $quota->setSociety(null);
-            }
-        }
-
-        return $this;
     }
 
     public function getFederation(): ?Federation

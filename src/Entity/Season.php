@@ -24,14 +24,14 @@ class Season
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $endDate = null;
 
-    #[ORM\ManyToMany(targetEntity: Specie::class, inversedBy: 'yes')]
+    #[ORM\ManyToMany(targetEntity: Specie::class, inversedBy: 'seasons')]
     private Collection $specie;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $title = null;
 
     #[ORM\OneToOne(mappedBy: 'season', cascade: ['persist', 'remove'])]
-    private ?Quota $yes = null;
+    private ?Quota $quota = null;
 
     public function __construct()
     {
@@ -75,22 +75,6 @@ class Season
         return $this->specie;
     }
 
-    public function addSpecie(Specie $specie): static
-    {
-        if (!$this->specie->contains($specie)) {
-            $this->specie->add($specie);
-        }
-
-        return $this;
-    }
-
-    public function removeSpecie(Specie $specie): static
-    {
-        $this->specie->removeElement($specie);
-
-        return $this;
-    }
-
     public function getTitle(): ?string
     {
         return $this->title;
@@ -103,25 +87,8 @@ class Season
         return $this;
     }
 
-    public function getYes(): ?Quota
+    public function getQuota(): ?Quota
     {
-        return $this->yes;
-    }
-
-    public function setYes(?Quota $yes): static
-    {
-        // unset the owning side of the relation if necessary
-        if ($yes === null && $this->yes !== null) {
-            $this->yes->setSeason(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($yes !== null && $yes->getSeason() !== $this) {
-            $yes->setSeason($this);
-        }
-
-        $this->yes = $yes;
-
-        return $this;
+        return $this->quota;
     }
 }

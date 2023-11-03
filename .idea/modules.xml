@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/hunting-table-back.iml" filepath="$PROJECT_DIR$/.idea/hunting-table-back.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Hunting-Table-Back.iml" filepath="$PROJECT_DIR$/.idea/Hunting-Table-Back.iml" />
     </modules>
   </component>
 </project>

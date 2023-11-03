@@ -5,9 +5,12 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\DepartmentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: DepartmentRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => 'read:Federation:collection']
+)]
 class Department
 {
     #[ORM\Id]
@@ -22,6 +25,7 @@ class Department
     private ?int $number = null;
 
     #[ORM\OneToOne(mappedBy: 'department', cascade: ['persist', 'remove'])]
+    #[Groups(['read:Federation:collection'])]
     private ?Federation $federation = null;
 
     public function getId(): ?int
@@ -56,17 +60,5 @@ class Department
     public function getFederation(): ?Federation
     {
         return $this->federation;
-    }
-
-    public function setFederation(Federation $federation): static
-    {
-        // set the owning side of the relation if necessary
-        if ($federation->getDepartment() !== $this) {
-            $federation->setDepartment($this);
-        }
-
-        $this->federation = $federation;
-
-        return $this;
     }
 }

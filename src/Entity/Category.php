@@ -7,6 +7,7 @@ use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ApiResource]
@@ -15,9 +16,11 @@ class Category
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['getCategory', 'getAllCategories'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['getCategory', 'getAllCategories'])]
     private ?string $name = null;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Specie::class)]
@@ -51,27 +54,5 @@ class Category
     public function getSpecies(): Collection
     {
         return $this->species;
-    }
-
-    public function addSpecies(Specie $species): static
-    {
-        if (!$this->species->contains($species)) {
-            $this->species->add($species);
-            $species->setCategory($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSpecies(Specie $species): static
-    {
-        if ($this->species->removeElement($species)) {
-            // set the owning side to null (unless already changed)
-            if ($species->getCategory() === $this) {
-                $species->setCategory(null);
-            }
-        }
-
-        return $this;
     }
 }
