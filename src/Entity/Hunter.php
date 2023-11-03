@@ -142,23 +142,4 @@ class Hunter
     {
         return $this->groupHunt;
     }
-
-    public function addGroupHunt(Hunt $groupHunt): static
-    {
-        if (!$this->groupHunt->contains($groupHunt)) {
-            $this->groupHunt->add($groupHunt);
-            $groupHunt->addParticipant($this);
-        }
-
-        return $this;
-    }
-
-    public function removeGroupHunt(Hunt $groupHunt): static
-    {
-        if ($this->groupHunt->removeElement($groupHunt)) {
-            $groupHunt->removeParticipant($this);
-        }
-
-        return $this;
-    }
 }

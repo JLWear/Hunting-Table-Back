@@ -28,14 +28,14 @@ class Specie
     private ?Kill $huntKill = null;
 
     #[ORM\ManyToMany(targetEntity: Season::class, mappedBy: 'specie')]
-    private Collection $yes;
+    private Collection $seasons;
 
     #[ORM\OneToOne(mappedBy: 'specie', cascade: ['persist', 'remove'])]
     private ?Quota $quota = null;
 
     public function __construct()
     {
-        $this->yes = new ArrayCollection();
+        $this->seasons = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -72,64 +72,16 @@ class Specie
         return $this->huntKill;
     }
 
-    public function setHuntKill(?Kill $huntKill): static
-    {
-        // unset the owning side of the relation if necessary
-        if ($huntKill === null && $this->huntKill !== null) {
-            $this->huntKill->setSpecie(null);
-        }
-
-        // set the owning side of the relation if necessary
-        if ($huntKill !== null && $huntKill->getSpecie() !== $this) {
-            $huntKill->setSpecie($this);
-        }
-
-        $this->huntKill = $huntKill;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Season>
      */
-    public function getYes(): Collection
+    public function getSeasons(): Collection
     {
-        return $this->yes;
-    }
-
-    public function addYe(Season $ye): static
-    {
-        if (!$this->yes->contains($ye)) {
-            $this->yes->add($ye);
-            $ye->addSpecie($this);
-        }
-
-        return $this;
-    }
-
-    public function removeYe(Season $ye): static
-    {
-        if ($this->yes->removeElement($ye)) {
-            $ye->removeSpecie($this);
-        }
-
-        return $this;
+        return $this->seasons;
     }
 
     public function getQuota(): ?Quota
     {
         return $this->quota;
-    }
-
-    public function setQuota(Quota $quota): static
-    {
-        // set the owning side of the relation if necessary
-        if ($quota->getSpecie() !== $this) {
-            $quota->setSpecie($this);
-        }
-
-        $this->quota = $quota;
-
-        return $this;
     }
 }
